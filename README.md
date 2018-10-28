@@ -16,7 +16,7 @@ EXPOSE 3306
 RUN cp /etc/mysql/my.cnf /usr/share/mysql/my-default.cnf
 RUN /usr/bin/mysqld  && sleep 5 && \
      mysql -uroot -e "CREATE DATABASE ${DB_NAME}" && \
-     mysql -uroot -e "CREATE USER '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}'" && \
+     mysql -uroot -e "CREATE USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}'" && \
      mysql -uroot -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.users_table TO '${DB_USER}'@'localhost'" &&\
      mysql -uroot -e "FLUSH PRIVILEGES" &&\
      mysql -u${DB_USER} -e "use tradeApi" &&\
