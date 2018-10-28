@@ -1,4 +1,4 @@
-#Dockerfile Mysql
+Dockerfile Mysql
 
 FROM mysql
 
