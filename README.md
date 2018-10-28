@@ -1,4 +1,3 @@
-# mysql_container
 #Dockerfile Mysql
 FROM mysql
 
