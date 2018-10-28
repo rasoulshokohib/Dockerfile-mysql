@@ -1,5 +1,5 @@
 #Dockerfile Mysql
-#Dockerfile Mysql
+
 FROM mysql
 
 RUN apt-get update
