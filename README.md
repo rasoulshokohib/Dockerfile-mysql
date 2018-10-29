@@ -1,6 +1,6 @@
-#Dockerfile Mysql
+# Dockerfile Mysql
 
-FROM mysql
+FROM Uubuntu:16.04
 
 RUN apt-get update
 RUN apt-get install mysql-server
