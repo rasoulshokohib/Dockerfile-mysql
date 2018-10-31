@@ -3,7 +3,10 @@
 FROM Uubuntu:16.04
 
 RUN apt-get update
+
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get install mysql-server
+
 RUN mysql_secure_installation
 
 ENV DB_USER mohsen
