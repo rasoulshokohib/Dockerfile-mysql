@@ -2,22 +2,20 @@
 
 FROM Uubuntu:16.04
 
-RUN apt-get update
-
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get install mysql-server
-
-RUN mysql_secure_installation
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server \
+ && sed -i "s/127.0.0.1/0.0.0.0/g" /etc/mysql/mysql.conf.d/mysqld.cnf \
+ && mkdir /var/run/mysqld \
+ && chown -R mysql:mysql /var/run/mysqld
 
 ENV DB_USER mohsen
 ENV DB_PASSWORD 123qwe#@!
 ENV DB_NAME tradeApi
 ENV VOLUME_HOME "/var/lib/mysql"
 
-EXPOSE 3306 
 
-RUN cp /etc/mysql/my.cnf /usr/share/mysql/my-default.cnf
-RUN /usr/bin/mysqld  && sleep 5 && \
+
+RUN
      mysql -uroot -e "CREATE DATABASE ${DB_NAME}" && \
      mysql -uroot -e "CREATE USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}'" && \
      mysql -uroot -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.users_table TO '${DB_USER}'@'localhost'" &&\
@@ -30,3 +28,8 @@ RUN /usr/bin/mysqld  && sleep 5 && \
      Verified  tinyint(1) default '0' null,
      constraint users_table_UserName_uindex   unique (UserName) )" &&\
      mysqladmin -uroot shutdown
+     
+     
+VOLUME ["/var/lib/mysql"]     
+EXPOSE 3306
+CMD ["mysqld_safe"]
