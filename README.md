@@ -21,9 +21,9 @@ RUN /usr/bin/mysqld  && sleep 5 && \
      mysql -uroot -e "FLUSH PRIVILEGES" &&\
      mysql -u${DB_USER} -e "use tradeApi" &&\
      mysql -u${DB_USER} -e "create table tradeApi.users_table ( UUID char(36) not null primary key,
-UserName varchar(35) null,
-EmailAddress varchar(255) null,
-PasswordHash varchar(64) null,
-Verified  tinyint(1) default '0' null,
-constraint users_table_UserName_uindex   unique (UserName) )" &&\
+     UserName varchar(35) null,
+     EmailAddress varchar(255) null,
+     PasswordHash varchar(64) null,
+     Verified  tinyint(1) default '0' null,
+     constraint users_table_UserName_uindex   unique (UserName) )" &&\
      mysqladmin -uroot shutdown
