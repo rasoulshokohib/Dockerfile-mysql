@@ -12,12 +12,22 @@ ENV DB_PASSWORD 123qwe#@!
 ENV DB_NAME tradeApi
 ENV VOLUME_HOME "/var/lib/mysql"
 
-# Create Database
-RUN mkdir /usr/sql
-RUN chmod 744 /usr/sql
-RUN /etc/init.d/mysql start && \
-        mysql -uroot  -e "CREATE DATABASE ${DB_NAME}"
+#Create Database
+  RUN mkdir /usr/sql
+  RUN chmod 744 /usr/sql
+  RUN /etc/init.d/mysql start && \
+        mysql -uroot  -e "CREATE DATABASE ${DB_NAME}" && \
+#create & permission user
+        mysql -uroot -e "CREATE USER '${DB_USER}'@'localhost' IDENTIFIED BY '$
+        mysql -uroot -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.users_table  TO '$
+#reset mysql
+  RUN /etc/init.d/mysql stop && \
+    /etc/init.d/mysql start && \
+#create table
+        mysql -u${DB_USER} -p${DB_PASSWORD} -e "use tradeApi" && \
+        mysql -u${DB_USER} -p${DB_PASSWORD} -e "create table tradeApi.users_table ( UUID char(36) not null primary key,UserName varchar(35) null,EmailAddress varchar(255) null,PasswordHash varchar(64) null,Verified  tinyint(1) default '0' null,constraint users_table_UserName_uindex   unique (UserName) );"
 
-VOLUME ["/var/lib/mysql"]     
+VOLUME ["/var/lib/mysql"]
 EXPOSE 3306
 CMD ["mysqld_safe"]
+
