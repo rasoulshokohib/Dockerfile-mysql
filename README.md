@@ -19,7 +19,7 @@ ENV VOLUME_HOME "/var/lib/mysql"
         mysql -uroot  -e "CREATE DATABASE ${DB_NAME}" && \
 #create & permission user
         mysql -uroot -e "CREATE USER '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}'"
-        mysql -uroot -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.users_table  TO '${DB_USER}'@'localhost'"
+        mysql -uroot -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.users_table  TO '${DB_USER}'@'localhost' FLUSH PRIVILEGES;" 
 #reset mysql
   RUN /etc/init.d/mysql stop && \
     /etc/init.d/mysql start && \
